@@ -3,11 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Model\Employee;
+use App\Http\Requests\EmployeeRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\Employee\EmployeeResource;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class EmployeeController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth:api')->except('index','show');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -36,9 +44,24 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmployeeRequest $request)
     {
-        //
+        //store the employee information in DB
+        // return "something";
+        $employee = new Employee;
+
+        $employee->e_firstName  = $request->firstName;
+        $employee->e_lastName   = $request->lastName;
+        $employee->e_dob        = $request->dateOfBirth;
+        $employee->e_address    = $request->address;
+        $employee->e_bossName   = $request->bossName;
+        $employee->e_salary     = $request->salary;
+        
+        $employee->save();
+
+        return Response([
+            'data' => new EmployeeResource($employee)
+        ] , Response::HTTP_CREATED);
     }
 
     /**
@@ -74,7 +97,26 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        //
+        // return $request->all();
+        $request['e_firstName'] = $request->firstName;
+        $request['e_lastName']  = $request->lastName;
+        $request['e_dob']       = $request->dateOfBirth;
+        $request['e_address']   = $request->address;
+        $request['e_bossName']  = $request->bossName;
+        $request['e_salary']    = $request->salary;
+        
+        unset($request['firstName']);
+        unset($request['lastName']);
+        unset($request['dateOfBirth']);
+        unset($request['address']);
+        unset($request['bossName']);
+        unset($request['salary']);
+
+        $employee->update($request->all());
+
+        return Response([
+            'data' => new EmployeeResource($employee)
+        ] , 200);
     }
 
     /**
@@ -85,6 +127,8 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        //Delete 1 employee
+        $employee->delete();
+        return Response(null , Response::HTTP_NO_CONTENT);
     }
 }
