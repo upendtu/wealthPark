@@ -17,7 +17,7 @@ class EmployeeController extends Controller
     {
         //return all employee Json
         // return Employee::all();
-        return EmployeeResource::collection(Employee::all());
+        return EmployeeResource::collection(Employee::paginate(5));
     }
 
     /**
