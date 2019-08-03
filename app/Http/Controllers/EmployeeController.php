@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Employee;
 use Illuminate\Http\Request;
+use App\Http\Resources\Employee\EmployeeResource;
 
 class EmployeeController extends Controller
 {
@@ -14,7 +15,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        //return all employee Json
+        // return Employee::all();
+        return EmployeeResource::collection(Employee::all());
     }
 
     /**
@@ -46,7 +49,9 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        //show single employee details
+        // return $employee;
+        return new EmployeeResource($employee);
     }
 
     /**
