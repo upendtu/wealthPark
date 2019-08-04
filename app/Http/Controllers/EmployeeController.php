@@ -7,6 +7,9 @@ use App\Http\Requests\EmployeeRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\Employee\EmployeeResource;
 use Symfony\Component\HttpFoundation\Response;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\Filter;
+
 
 
 class EmployeeController extends Controller
@@ -25,7 +28,15 @@ class EmployeeController extends Controller
     {
         //return all employee Json
         // return Employee::all();
-        return EmployeeResource::collection(Employee::paginate(5));
+        return QueryBuilder::for(Employee::class)
+                ->allowedFilters(Filter::exact('fname' , 'e_firstName'), 
+                                 Filter::exact('lname','e_lastName'),
+                                 Filter::exact('bossname','e_bossName'),
+                                 Filter::exact('salary','e_salary')
+                                )
+                ->paginate(5);
+        // return $users;
+        // return EmployeeResource::collection(Employee::paginate(5));
     }
 
     /**
@@ -98,6 +109,7 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
         // return $request->all();
+
         $request['e_firstName'] = $request->firstName;
         $request['e_lastName']  = $request->lastName;
         $request['e_dob']       = $request->dateOfBirth;
