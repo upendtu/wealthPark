@@ -9,14 +9,14 @@
 * php artisan serv
 
 Ressults
-# To get EmployeeList(METHOD-GET)
+#To get EmployeeList(METHOD-GET)
 * http://127.0.0.1:8000/api/employees
-# To get Single Employee(api/employees/emplID)
+#To get Single Employee(api/employees/emplID)
 * http://127.0.0.1:8000/api/employees/2
-# pagination (METHOD-GET)
+#pagination (METHOD-GET)
 * http://127.0.0.1:8000/api/employees?page=2
 
-# Create New Employee(METHOD-POST)
+#Create New Employee(METHOD-POST)
 * http://127.0.0.1:8000/api/employees
 #pass the data like This
 ```
@@ -31,13 +31,13 @@ Ressults
 }
 ```
 
-# update the employee(api/employees/EmplID) METHOD - PUT
+#update the employee(api/employees/EmplID) METHOD - PUT
 * http://127.0.0.1:8000/api/employees/52
 
-# Delete Employee(METHOD - DELETE)
+#Delete Employee(METHOD - DELETE)
 * http://127.0.0.1:8000/api/employees/53
 
-# filter the employee by firstName , LastName , BossName
+#filter the employee by firstName , LastName , BossName
 * http://127.0.0.1:8000/api/employees?filter[fname]=upendra
 * http://127.0.0.1:8000/api/employees?filter[lname]=upendra
 * http://127.0.0.1:8000/api/employees?filter[bossname]=upendra
